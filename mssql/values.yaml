@@ -1,0 +1,12 @@
+sa:
+  pwd: "sa123456!!"
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "2048Mi"
+
+hostPath:
+  path: /usr/k3s/valumes/mssql
+
+nodePort: 1433

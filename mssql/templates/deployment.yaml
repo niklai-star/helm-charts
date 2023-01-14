@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssqlserver
+  labels:
+    app: mssqlserver
+    version: "2022"
+spec:
+  selector:
+    matchLabels:
+      app: mssqlserver
+      version: "2022"
+  template:
+    metadata:
+      labels:
+        app: mssqlserver
+        version: "2022"
+    spec:
+      containers:
+      - name: mssqlserver
+        securityContext:
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+        - name: tcp
+          containerPort: 1433
+          protocol: TCP
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_SA_PASSWORD
+          value: {{ .Values.sa.pwd }}
+        volumeMounts:
+        - name: data
+          mountPath: /var/opt/mssql
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+      volumes:
+      - name: data
+        hostPath:
+          path: {{ .Values.hostPath.path }}
