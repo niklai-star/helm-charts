@@ -7,6 +7,6 @@ resources:
     memory: "2048Mi"
 
 hostPath:
-  path: /usr/k3s/valumes/mssql
+  path: /usr/valumes/mssql
 
 nodePort: 1433

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mysql
+    version: "5.7"
+  name: mysql5
+spec:
+  selector:
+    app: mysql
+    version: "5.7"
+  type: NodePort
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+    nodePort: {{ .Values.nodePort }}

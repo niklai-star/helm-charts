@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels:
+    app: mysql
+    version: "5.7"
+  name: mysql5
+spec:
+  selector: 
+    matchLabels:
+      app: mysql
+      version: "5.7"
+  template: 
+    metadata: 
+      labels:
+        app: mysql
+        version: "5.7"
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql5
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "123456"
+        - name: MYSQL_ROOT_HOST
+          value: "%"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysqlvolume
+          mountPath: /var/lib/mysql
+        - name: config
+          mountPath: /etc/mysql/conf.d
+      volumes:
+      - name: mysqlvolume
+        hostPath: 
+          path: {{ .Values.hostPath.path }}
+      - name: config
+        configMap:
+          name: mysql

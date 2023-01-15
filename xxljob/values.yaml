@@ -1,0 +1,11 @@
+config:
+  dbsvc: mysql5
+  dbusername: root
+  dbpassword: 123456
+
+resources:
+  limits:
+    cpu: "0.5"
+    memory: "384Mi"
+
+nodePort: 8080

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rocketmq-dashboard
+  labels:
+    app: rocketmq-dashboard
+    version: "1.0.0"
+spec:
+  selector:
+    matchLabels:
+      app: rocketmq-dashboard
+      version: "1.0.0"
+  template:
+    metadata:
+      labels:
+        app: rocketmq-dashboard
+        version: "1.0.0"
+    spec:
+      containers:
+      - name: rocketmq-dashboard
+        image: apacherocketmq/rocketmq-dashboard:1.0.0
+        env:
+        - name: JAVA_OPTS
+          value: "{{ .Values.JAVA_OPTS }}"
+        ports:
+        - name: web
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: "{{ .Values.resources.limits.cpu }}"
+            memory: "{{ .Values.resources.limits.memory }}"

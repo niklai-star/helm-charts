@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis7
+  labels:
+    app: redis
+    version: "7-alpine"
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      version: "7-alpine"
+  template:
+    metadata:
+      labels:
+        app: redis
+        version: "7-alpine"
+    spec:
+      containers:
+      - name: redis7
+        image: redis:7-alpine
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+      volumes:
+      - name: data
+        emptyDir: {}

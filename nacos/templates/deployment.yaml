@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+  labels:
+    app: "nacos-server"
+    version: "v2.1.2"
+spec:
+  selector:
+    matchLabels:
+      app: "nacos-server"
+      version: "v2.1.2"
+  template:
+    metadata:
+      labels:
+        app: "nacos-server"
+        version: "v2.1.2"
+    spec:
+      containers:
+      - name: nacos
+        image: nacos/nacos-server:v2.1.2
+        ports:
+        - containerPort: 8848
+        - containerPort: 9848
+        env:
+        - name: MODE
+          value: "standalone"
+        - name: JVM_XMS
+          value: "{{ .Values.JVM_XMS }}"
+        - name: JVM_XMX
+          value: "{{ .Values.JVM_XMX }}"
+        - name: JVM_XMN
+          value: "{{ .Values.JVM_XMN }}"
+        resources:
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"

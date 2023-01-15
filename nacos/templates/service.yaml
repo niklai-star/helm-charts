@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  labels:
+    app: "nacos-server"
+    version: "v2.1.2"
+spec:
+  selector:
+    app: "nacos-server"
+    version: "v2.1.2"
+  type: NodePort
+  ports:
+  - name: webs
+    port: 8848
+    targetPort: 8848
+    nodePort: {{ .Values.nodePort.web }}
+  - name: "tcp-9848"
+    port: 9848
+    targetPort: 9848
+    nodePort: {{ .Values.nodePort.tcp9848 }}

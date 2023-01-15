@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels:
+    app: xxl-job-admin
+    version: "2.2.0"
+  name: xxl-job-admin
+spec:
+  selector: 
+    matchLabels:
+      app: xxl-job-admin
+      version: "2.2.0"
+  template: 
+    metadata: 
+      labels:
+        app: xxl-job-admin
+        version: "2.2.0"
+    spec:
+      containers:
+      - image: xuxueli/xxl-job-admin:2.2.0
+        name: xxl-job-admin
+        ports:
+        - name: web
+          containerPort: 8080
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        resources:
+          limits:
+            cpu: "{{ .Values.resources.limits.cpu }}"
+            memory: "{{ .Values.resources.limits.memory }}"
+      volumes:
+      - name: config
+        configMap:
+          name: xxljob-config

@@ -1,0 +1,11 @@
+resources:
+  limits:
+    memory: "512Mi"
+
+nodePort: 
+  web: 8848
+  tcp9848: 9848
+
+JVM_XMS: 384m
+JVM_XMX: 384m
+JVM_XMN: 128m
