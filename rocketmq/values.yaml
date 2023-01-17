@@ -1,0 +1,30 @@
+rocketmq:
+  version: 4.8.0
+  namesrv:
+    env: 
+      TZ: Asia/Shanghai
+      JAVA_OPT_EXT: -Xms256m -Xmx256m -Xmn128m
+    resources:
+      limits:
+        cpu: 0.5
+        memory: 384Mi
+  broker:
+    env: 
+      TZ: Asia/Shanghai
+      NAMESRV_ADDR: rocketmq:9876
+      JAVA_OPT_EXT: -Xms256m -Xmx256m -Xmn128m
+    resources:
+      limits:
+        cpu: 0.5
+        memory: 384Mi
+
+dashboard:
+  version: 1.0.0
+  nodePort: 48080
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 384Mi
+  JAVA_OPTS: -Xms256m -Xmx256m -Xmn128m -Drocketmq.namesrv.addr=rocketmq:9876
+
+hostPath: /usr/volume/rocketmq

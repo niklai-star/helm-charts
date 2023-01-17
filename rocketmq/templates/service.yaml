@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rocketmq
+  labels:
+    app: rocketmq
+spec:
+  selector:
+    app: rocketmq
+    version: "{{ .Values.rocketmq.version }}"
+  type: NodePort
+  ports:
+  - name: "tcp-8080"
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: {{ .Values.dashboard.nodePort }}
+  - name: "tcp-9876"
+    protocol: TCP
+    port: 9876
+    targetPort: 9876
+  - name: "tcp-10909"
+    protocol: TCP
+    port: 10909
+    targetPort: 10909
+  - name: "tcp-10911"
+    protocol: TCP
+    port: 10911
+    targetPort: 10911
+  - name: "tcp-10912"
+    protocol: TCP
+    port: 10912
+    targetPort: 10912

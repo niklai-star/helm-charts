@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rocketmq
+  labels:
+    app: rocketmq
+spec:
+  selector:
+    matchLabels:
+      app: rocketmq
+      version: "{{ .Values.rocketmq.version }}"
+  template:
+    metadata:
+      labels:
+        app: rocketmq
+        version: "{{ .Values.rocketmq.version }}"
+    spec:
+      containers:
+      - name: rocketmq-namesrv
+        image: foxiswho/rocketmq:{{ .Values.rocketmq.version }}
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: TZ
+          value: {{ .Values.rocketmq.namesrv.env.TZ }}
+        - name: JAVA_OPT_EXT
+          value: {{ .Values.rocketmq.namesrv.env.JAVA_OPT_EXT }}
+        command: ["sh", "-c", "mqnamesrv"]
+        ports:
+        - containerPort: 9876
+        volumeMounts:
+        - name: logs
+          mountPath: /home/rocketmq/logs
+        - name: store
+          mountPath: /home/rocketmq/store
+        resources:
+          limits:
+            cpu: {{ .Values.rocketmq.namesrv.resources.limits.cpu }}
+            memory: {{ .Values.rocketmq.namesrv.resources.limits.memory }}
+      - name: rocketmq-broker
+        image: foxiswho/rocketmq:{{ .Values.rocketmq.version }}
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: TZ
+          value: {{ .Values.rocketmq.broker.env.TZ }}
+        - name: NAMESRV_ADDR
+          value: {{ .Values.rocketmq.broker.env.NAMESRV_ADDR }}
+        - name: JAVA_OPT_EXT
+          value: {{ .Values.rocketmq.broker.env.JAVA_OPT_EXT }}
+        command: ["sh", "-c", "mqbroker -c /etc/rocketmq/broker.conf"]
+        ports:
+        - containerPort: 10909
+        - containerPort: 10911
+        - containerPort: 10912
+        volumeMounts:
+        - name: logs
+          mountPath: /home/rocketmq/logs
+        - name: store
+          mountPath: /home/rocketmq/store
+        - name: conf
+          mountPath: /etc/rocketmq
+        resources:
+          limits:
+            cpu: {{ .Values.rocketmq.broker.resources.limits.cpu }}
+            memory: {{ .Values.rocketmq.broker.resources.limits.memory }}
+      - name: rocketmq-dashboard
+        image: apacherocketmq/rocketmq-dashboard:{{ .Values.dashboard.version }}
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: JAVA_OPTS
+          value: {{ .Values.dashboard.JAVA_OPTS }}
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: {{ .Values.dashboard.resources.limits.cpu }}
+            memory: {{ .Values.dashboard.resources.limits.memory }}
+      volumes:
+      - name: logs
+        hostPath:
+          path: {{ .Values.hostPath }}/logs
+      - name: store
+        hostPath:
+          path: {{ .Values.hostPath }}/store
+      - name: conf
+        configMap:
+          name: rocketmq-broker-conf
