@@ -1,0 +1,12 @@
+env:
+  discovery-type: single-node
+  ES_JAVA_OPTS: -Xms512m -Xmx512m -Xmn256m
+
+resources:
+  limits:
+    cpu: 0.5
+    memory: 1024Mi
+
+nodePort:
+  http: 9200
+  tcp: 9300

@@ -31,7 +31,7 @@ spec:
           mountPath: /data
         resources:
           limits:
-            cpu: {{ .Values.resources.limits.cpu }}
+            # cpu: {{ .Values.resources.limits.cpu }}
             memory: {{ .Values.resources.limits.memory }}
       volumes:
       - name: data

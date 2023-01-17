@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+    version: "7.17.8"
+spec:
+  selector:
+    app: kibana
+    version: "7.17.8"
+  type: NodePort
+  ports:
+  - name: web
+    port: 5601
+    targetPort: web
+    nodePort: {{ .Values.nodePort.web }}

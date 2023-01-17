@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+    version: "7.17.8"
+spec:
+  selector:
+    matchLabels:
+      app: kibana
+      version: "7.17.8"
+  template:
+    metadata:
+      labels:
+        app: kibana
+        version: "7.17.8"
+    spec:
+      containers:
+      - name: kibana
+        image: kibana:7.17.8
+        env: 
+        - name: ELASTICSEARCH_HOSTS
+          value: {{ .Values.env.ELASTICSEARCH_HOSTS }}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+        ports:
+        - name: web
+          containerPort: 5601

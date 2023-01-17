@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+    version: "7.17.8"
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+      version: "7.17.8"
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        version: "7.17.8"
+    spec:
+      containers:
+        - name: elasticsearch
+          image: elasticsearch:7.17.8
+          env:
+            - name: "discovery.type"
+              value: {{ .Values.env.discovery-type }}
+            - name: "ES_JAVA_OPTS"
+              value: {{ .Values.env.ES_JAVA_OPTS }}
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          ports:
+            - name: http
+              containerPort: 9200
+            - name: tcp
+              containerPort: 9300

@@ -19,6 +19,9 @@ spec:
       containers:
       - image: xuxueli/xxl-job-admin:2.2.0
         name: xxl-job-admin
+        env:
+        - name: JAVA_OPTS
+          value: {{ .Values.JAVA_OPTS }}
         ports:
         - name: web
           containerPort: 8080
@@ -27,7 +30,7 @@ spec:
           mountPath: /config
         resources:
           limits:
-            cpu: "{{ .Values.resources.limits.cpu }}"
+            # cpu: "{{ .Values.resources.limits.cpu }}"
             memory: "{{ .Values.resources.limits.memory }}"
       volumes:
       - name: config

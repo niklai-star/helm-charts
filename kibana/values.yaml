@@ -1,0 +1,10 @@
+env:
+  ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+resources:
+  limits:
+    cpu: 0.5
+    memory: 512Mi
+
+nodePort:
+  web: 5601

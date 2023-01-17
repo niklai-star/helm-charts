@@ -3,6 +3,8 @@ config:
   dbusername: root
   dbpassword: 123456
 
+JAVA_OPTS: -Xms256m -Xmx256m -Xmn128m
+
 resources:
   limits:
     cpu: 0.5
