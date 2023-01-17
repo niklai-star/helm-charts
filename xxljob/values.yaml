@@ -5,7 +5,7 @@ config:
 
 resources:
   limits:
-    cpu: "0.5"
-    memory: "384Mi"
+    cpu: 0.5
+    memory: 384Mi
 
 nodePort: 8080

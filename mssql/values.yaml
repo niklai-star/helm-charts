@@ -3,8 +3,8 @@ sa:
 
 resources:
   limits:
-    cpu: "1"
-    memory: "2048Mi"
+    cpu: 1
+    memory: 2048Mi
 
 hostPath:
   path: /usr/valumes/mssql

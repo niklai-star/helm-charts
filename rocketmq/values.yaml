@@ -27,4 +27,5 @@ dashboard:
       memory: 384Mi
   JAVA_OPTS: -Xms256m -Xmx256m -Xmn128m -Drocketmq.namesrv.addr=rocketmq:9876
 
-hostPath: /usr/volume/rocketmq
+hostPath:
+  path: /usr/volume/rocketmq

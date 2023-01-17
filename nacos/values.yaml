@@ -1,6 +1,6 @@
 resources:
   limits:
-    memory: "512Mi"
+    memory: 512Mi
 
 nodePort: 
   web: 8848

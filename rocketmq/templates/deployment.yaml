@@ -89,10 +89,10 @@ spec:
       volumes:
       - name: logs
         hostPath:
-          path: {{ .Values.hostPath }}/logs
+          path: {{ .Values.hostPath.path }}/logs
       - name: store
         hostPath:
-          path: {{ .Values.hostPath }}/store
+          path: {{ .Values.hostPath.path }}/store
       - name: conf
         configMap:
           name: rocketmq-broker-conf
