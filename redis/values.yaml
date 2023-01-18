@@ -2,5 +2,4 @@ nodePort: 6379
 
 resources:
   limits:
-    cpu: 0.5
-    memory: 256Mi
+    memory: 128Mi

@@ -38,7 +38,6 @@ spec:
           mountPath: /home/rocketmq/store
         resources:
           limits:
-            cpu: {{ .Values.rocketmq.namesrv.resources.limits.cpu }}
             memory: {{ .Values.rocketmq.namesrv.resources.limits.memory }}
       - name: rocketmq-broker
         image: foxiswho/rocketmq:{{ .Values.rocketmq.version }}
@@ -68,7 +67,6 @@ spec:
           mountPath: /etc/rocketmq
         resources:
           limits:
-            cpu: {{ .Values.rocketmq.broker.resources.limits.cpu }}
             memory: {{ .Values.rocketmq.broker.resources.limits.memory }}
       - name: rocketmq-dashboard
         image: apacherocketmq/rocketmq-dashboard:{{ .Values.dashboard.version }}
@@ -84,15 +82,14 @@ spec:
         - containerPort: 8080
         resources:
           limits:
-            cpu: {{ .Values.dashboard.resources.limits.cpu }}
             memory: {{ .Values.dashboard.resources.limits.memory }}
       volumes:
       - name: logs
         hostPath:
-          path: {{ .Values.hostPath.path }}/logs
+          path: {{ .Values.hostPath.logs.path }}
       - name: store
         hostPath:
-          path: {{ .Values.hostPath.path }}/store
+          path: {{ .Values.hostPath.store.path }}
       - name: conf
         configMap:
           name: rocketmq-broker-conf

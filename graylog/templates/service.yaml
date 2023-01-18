@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graylog
+  labels:
+    app: graylog
+    version: "5.0"
+spec:
+  selector:
+    app: graylog
+    version: "5.0"
+  type: NodePort
+  ports:
+  - name: web
+    port: 9000
+    targetPort: web
+    nodePort: {{ .Values.nodePort.web }}
+  - name: syslog-tcp
+    protocol: TCP
+    port: 1514
+    targetPort: syslog
+    nodePort: {{ .Values.nodePort.syslog }}
+  - name: syslog-udp
+    protocol: UDP
+    port: 1514
+    targetPort: syslog
+    nodePort: {{ .Values.nodePort.syslog }}
+  - name: gelf-tcp
+    protocol: TCP
+    port: 12201
+    targetPort: gelf
+    nodePort: {{ .Values.nodePort.gelf }}
+  - name: gelf-udp
+    protocol: UDP
+    port: 12201
+    targetPort: gelf
+    nodePort: {{ .Values.nodePort.gelf }}
+    
+    

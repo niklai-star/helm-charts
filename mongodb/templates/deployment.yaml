@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+    version: 6.0.3
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+      version: 6.0.3
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        version: 6.0.3
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:6.0.3
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: config
+          mountPath: /data/configdb
+        - name: db
+          mountPath: /data/db
+      volumes:
+      - name: config
+        hostPath:
+          path: {{ .Values.hostPath.config.path }}
+      - name: db
+        hostPath:
+          path: {{ .Values.hostPath.db.path }}

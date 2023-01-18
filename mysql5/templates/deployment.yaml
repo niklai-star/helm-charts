@@ -29,17 +29,20 @@ spec:
           value: "123456"
         - name: MYSQL_ROOT_HOST
           value: "%"
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
         ports:
         - containerPort: 3306
         volumeMounts:
-        - name: mysqlvolume
+        - name: data
           mountPath: /var/lib/mysql
         - name: config
           mountPath: /etc/mysql/conf.d
       volumes:
-      - name: mysqlvolume
+      - name: data
         hostPath: 
-          path: {{ .Values.hostPath.path }}
+          path: {{ .Values.hostPath.data.path }}
       - name: config
         configMap:
           name: mysql

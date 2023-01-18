@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graylog
+  labels:
+    app: graylog
+    version: "5.0"
+spec:
+  selector:
+    matchLabels:
+      app: graylog
+      version: "5.0"
+  template:
+    metadata:
+      labels:
+        app: graylog
+        version: "5.0"
+    spec:
+      containers:
+      - name: graylog
+        image: graylog/graylog:5.0
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: GRAYLOG_MONGODB_URI
+          value: {{ .Values.env.GRAYLOG_MONGODB_URI }}
+        - name: GRAYLOG_ELASTICSEARCH_HOSTS
+          value: {{ .Values.env.GRAYLOG_ELASTICSEARCH_HOSTS }}
+        - name: GRAYLOG_HTTP_EXTERNAL_URI
+          value: {{ .Values.env.GRAYLOG_HTTP_EXTERNAL_URI }}
+        - name: GRAYLOG_ROOT_TIMEZONE
+          value: {{ .Values.env.GRAYLOG_ROOT_TIMEZONE }}
+        - name: GRAYLOG_PASSWORD_SECRET
+          value: "{{ .Values.env.GRAYLOG_PASSWORD_SECRET }}"
+        - name: GRAYLOG_ROOT_PASSWORD_SHA2
+          value: {{ .Values.env.GRAYLOG_ROOT_PASSWORD_SHA2 }}
+        ports:
+        - name: web
+          containerPort: 9000
+        - name: syslog
+          containerPort: 1514
+        - name: gelf
+          containerPort: 12201
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}

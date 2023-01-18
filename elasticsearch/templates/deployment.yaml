@@ -17,18 +17,32 @@ spec:
         version: "7.17.8"
     spec:
       containers:
-        - name: elasticsearch
-          image: elasticsearch:7.17.8
-          env:
-            - name: "discovery.type"
-              value: {{ .Values.env.discovery-type }}
-            - name: "ES_JAVA_OPTS"
-              value: {{ .Values.env.ES_JAVA_OPTS }}
-          resources:
-            limits:
-              memory: {{ .Values.resources.limits.memory }}
-          ports:
-            - name: http
-              containerPort: 9200
-            - name: tcp
-              containerPort: 9300
+      - name: elasticsearch
+        image: elasticsearch:7.17.8
+        securityContext: 
+          privileged: true
+          capabilities:
+            add: ["SYS_ADMIN"]
+          runAsUser: 0
+        env:
+        - name: "discovery.type"
+          value: {{ .Values.env.discovery_type }}
+        - name: "ES_JAVA_OPTS"
+          value: {{ .Values.env.ES_JAVA_OPTS }}
+        - name: TZ
+          value: {{ .Values.env.TZ }}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+        ports:
+        - name: http
+          containerPort: 9200
+        - name: tcp
+          containerPort: 9300
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/elasticsearch/data
+      volumes:
+      - name: data
+        hostPath:
+          path: {{ .Values.hostPath.data.path }}

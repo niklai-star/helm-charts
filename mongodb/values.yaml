@@ -1,0 +1,11 @@
+resources:
+  limits:
+    memory: 128Mi
+
+hostPath:
+  config:
+    path: /usr/volume/mongodb/configdb
+  db:
+    path: /usr/volume/mongodb/db
+
+nodePort: 27017

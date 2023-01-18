@@ -1,4 +1,9 @@
+resources:
+  limits:
+    memory: 256Mi
+
 hostPath:
-  path: /usr/volume/mysql/5
+  data:
+    path: /usr/volume/mysql/5
 
 nodePort: 3306
