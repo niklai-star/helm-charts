@@ -1,12 +1,12 @@
 env:
   discovery_type: single-node
-  ES_JAVA_OPTS: -Xms256m -Xmx256m -Xmn128m
+  ES_JAVA_OPTS: -Xms128m -Xmx128m -Xmn64m
   TZ: Asia/Shanghai
 
 resources:
   limits:
     cpu: 0.5
-    memory: 384Mi
+    memory: 256Mi
 
 hostPath:
   data:
