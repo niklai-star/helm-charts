@@ -1,0 +1,13 @@
+env:
+  user: "sa"
+  password: "123456"
+
+resource:
+  limits:
+    memory: 256Mi
+
+hostPath:
+  data:
+    path: /usr/volume/postgresql/data
+
+nodePort: 5432

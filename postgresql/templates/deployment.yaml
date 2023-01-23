@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+    version: "15.1"
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+      version: "15.1"
+  template:
+    metadata:
+      labels:
+        app: postgresql
+        version: "15.1"
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres:15.1
+          env:
+            - name: POSTGRES_USER
+              value: "{{ .Values.env.user }}"
+            - name: POSTGRES_PASSWORD
+              value: "{{ .Values.env.password }}"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+          resources:
+            limits:
+              memory: {{ .Values.resource.limits.memory }}
+      volumes:
+        - name: data
+          hostPath:
+            path: {{ .Values.hostPath.data.path }}

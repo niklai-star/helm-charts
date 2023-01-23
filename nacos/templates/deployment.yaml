@@ -26,11 +26,13 @@ spec:
         - name: MODE
           value: "standalone"
         - name: JVM_XMS
-          value: "{{ .Values.JVM_XMS }}"
+          value: "{{ .Values.env.JVM_XMS }}"
         - name: JVM_XMX
-          value: "{{ .Values.JVM_XMX }}"
+          value: "{{ .Values.env.JVM_XMX }}"
         - name: JVM_XMN
-          value: "{{ .Values.JVM_XMN }}"
+          value: "{{ .Values.env.JVM_XMN }}"
+        {{- if eq .Values.resources.enable true }}
         resources:
           limits:
-            memory: "{{ .Values.resources.limits.memory }}"
+            memory: {{ .Values.resources.limits.memory }}
+        {{- end }}

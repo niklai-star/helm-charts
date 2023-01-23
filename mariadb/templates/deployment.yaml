@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+    version: 10.9.4
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+      version: 10.9.4
+  template:
+    metadata:
+      labels:
+        app: mariadb
+        version: 10.9.4
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.9.4
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            runAsUser: 0
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              value: "{{ .Values.env.MARIADB_ROOT_PASSWORD }}"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: data
+          resources:
+            limits:
+              memory: {{ .Values.resource.limits.memory }}
+      volumes:
+        - name: data
+          hostPath:
+            path: {{ .Values.hostPath.data.path }}

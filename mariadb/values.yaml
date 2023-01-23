@@ -1,0 +1,12 @@
+env:
+  MARIADB_ROOT_PASSWORD: 123456
+
+resource:
+  limits:
+    memory: 256Mi
+
+hostPath:
+  data:
+    path: /usr/volume/mariadb/data
+
+nodePort: 3306

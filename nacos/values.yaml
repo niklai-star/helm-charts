@@ -1,4 +1,5 @@
 resources:
+  enable: false
   limits:
     memory: 384Mi
 
@@ -6,6 +7,7 @@ nodePort:
   web: 8848
   tcp9848: 9848
 
-JVM_XMS: 256m
-JVM_XMX: 256m
-JVM_XMN: 128m
+env:
+  JVM_XMS: 256m
+  JVM_XMX: 256m
+  JVM_XMN: 128m
