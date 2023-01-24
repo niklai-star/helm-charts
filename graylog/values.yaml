@@ -1,7 +1,6 @@
 resources:
   limits:
-    cpu: 0.5
-    memory: 256Mi
+    memory: 512Mi
 
 env:
   GRAYLOG_MONGODB_URI: mongodb://mongodb:27017/graylog

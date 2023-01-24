@@ -1,6 +1,14 @@
-resources:
-  limits:
-    memory: 128Mi
+db:
+  resources:
+    limits:
+      memory: 256Mi
+  env:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: 123456
+express:
+  resources:
+    limits:
+      memory: 128Mi
 
 hostPath:
   config:
@@ -8,4 +16,6 @@ hostPath:
   db:
     path: /usr/volume/mongodb/db
 
-nodePort: 27017
+nodePort:
+  db: 27017
+  express: 8081

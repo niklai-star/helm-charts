@@ -4,26 +4,21 @@ metadata:
   name: graylog
   labels:
     app: graylog
-    version: "5.0"
+    version: "4.3"
 spec:
   selector:
     matchLabels:
       app: graylog
-      version: "5.0"
+      version: "4.3"
   template:
     metadata:
       labels:
         app: graylog
-        version: "5.0"
+        version: "4.3"
     spec:
       containers:
       - name: graylog
-        image: graylog/graylog:5.0
-        securityContext: 
-          privileged: true
-          capabilities:
-            add: ["SYS_ADMIN"]
-          runAsUser: 0
+        image: graylog/graylog:4.3
         env:
         - name: GRAYLOG_MONGODB_URI
           value: {{ .Values.env.GRAYLOG_MONGODB_URI }}
@@ -40,11 +35,19 @@ spec:
         ports:
         - name: web
           containerPort: 9000
-        - name: syslog
+        - name: syslog-tcp
+          protocol: TCP
           containerPort: 1514
-        - name: gelf
+        - name: syslog-udp
+          protocol: UDP
+          containerPort: 1514
+        - name: gelf-tcp
+          protocol: TCP
+          containerPort: 12201
+        - name: gelf-udp
+          protocol: UDP
           containerPort: 12201
         resources:
           limits:
-            cpu: {{ .Values.resources.limits.cpu }}
+{{/*            cpu: {{ .Values.resources.limits.cpu }}*/}}
             memory: {{ .Values.resources.limits.memory }}

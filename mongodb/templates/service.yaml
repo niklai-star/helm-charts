@@ -11,6 +11,12 @@ spec:
     version: 6.0.3
   type: NodePort
   ports:
-  - port: 27017
-    targetPort: 27017
-    nodePort: {{ .Values.nodePort }}
+    - name: db
+      port: 27017
+      targetPort: 27017
+      nodePort: {{ .Values.nodePort.db }}
+{{/*    - name: express*/}}
+{{/*      protocol: TCP*/}}
+{{/*      port: 8081*/}}
+{{/*      targetPort: 8081*/}}
+{{/*      nodePort: {{ .Values.nodePort.express }}*/}}

@@ -19,9 +19,14 @@ spec:
       containers:
         - name: mongodb
           image: mongo:6.0.3
+{{/*          env:*/}}
+{{/*            - name: MONGO_INITDB_ROOT_USERNAME*/}}
+{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_USERNAME }}"*/}}
+{{/*            - name: MONGO_INITDB_ROOT_PASSWORD*/}}
+{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_PASSWORD }}"*/}}
           resources:
             limits:
-              memory: {{ .Values.resources.limits.memory }}
+              memory: {{ .Values.db.resources.limits.memory }}
           ports:
             - containerPort: 27017
           volumeMounts:
@@ -29,6 +34,20 @@ spec:
               mountPath: /data/configdb
             - name: db
               mountPath: /data/db
+{{/*        - name: mongodb-express*/}}
+{{/*          image: mongo-express:0.54.0*/}}
+{{/*          env:*/}}
+{{/*            - name: ME_CONFIG_MONGODB_URL*/}}
+{{/*              value: "mongodb://{{.Values.db.env.MONGO_INITDB_ROOT_USERNAME}}:{{ .Values.db.env.MONGO_INITDB_ROOT_PASSWORD }}@127.0.0.1:27017"*/}}
+{{/*            - name: ME_CONFIG_MONGODB_ADMINUSERNAME*/}}
+{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_USERNAME }}"*/}}
+{{/*            - name: ME_CONFIG_MONGODB_ADMINPASSWORD*/}}
+{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_PASSWORD }}"*/}}
+{{/*          ports:*/}}
+{{/*            - containerPort: 8081*/}}
+{{/*          resources:*/}}
+{{/*            limits:*/}}
+{{/*              memory: {{ .Values.express.resources.limits.memory }}*/}}
       volumes:
         - name: config
           hostPath:

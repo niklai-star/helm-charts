@@ -19,11 +19,11 @@ spec:
       containers:
       - name: elasticsearch
         image: elasticsearch:7.17.8
-        securityContext: 
-          privileged: true
-          capabilities:
-            add: ["SYS_ADMIN"]
-          runAsUser: 0
+{{/*        securityContext: */}}
+{{/*          privileged: true*/}}
+{{/*          capabilities:*/}}
+{{/*            add: ["SYS_ADMIN"]*/}}
+{{/*          runAsUser: 0*/}}
         env:
         - name: "discovery.type"
           value: {{ .Values.env.discovery_type }}

@@ -4,11 +4,11 @@ metadata:
   name: graylog
   labels:
     app: graylog
-    version: "5.0"
+    version: "4.3"
 spec:
   selector:
     app: graylog
-    version: "5.0"
+    version: "4.3"
   type: NodePort
   ports:
   - name: web
@@ -18,22 +18,22 @@ spec:
   - name: syslog-tcp
     protocol: TCP
     port: 1514
-    targetPort: syslog
+    targetPort: syslog-tcp
     nodePort: {{ .Values.nodePort.syslog }}
   - name: syslog-udp
     protocol: UDP
     port: 1514
-    targetPort: syslog
+    targetPort: syslog-udp
     nodePort: {{ .Values.nodePort.syslog }}
   - name: gelf-tcp
     protocol: TCP
     port: 12201
-    targetPort: gelf
+    targetPort: gelf-tcp
     nodePort: {{ .Values.nodePort.gelf }}
   - name: gelf-udp
     protocol: UDP
     port: 12201
-    targetPort: gelf
+    targetPort: gelf-udp
     nodePort: {{ .Values.nodePort.gelf }}
     
     
