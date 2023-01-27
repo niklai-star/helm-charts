@@ -19,19 +19,18 @@ spec:
       containers:
         - name: mariadb
           image: mariadb:10.9.4
-          securityContext:
-            privileged: true
-            capabilities:
-              add: ["SYS_ADMIN"]
-            runAsUser: 0
           env:
             - name: MARIADB_ROOT_PASSWORD
               value: "{{ .Values.env.MARIADB_ROOT_PASSWORD }}"
+            - name: MARIADB_ROOT_HOST
+              value: "{{ .Values.env.MARIADB_ROOT_HOST }}"
           ports:
             - containerPort: 3306
           volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: data
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: config
+              mountPath: /etc/mysql/conf.d
           resources:
             limits:
               memory: {{ .Values.resource.limits.memory }}
@@ -39,3 +38,6 @@ spec:
         - name: data
           hostPath:
             path: {{ .Values.hostPath.data.path }}
+        - name: config
+          configMap:
+            name: mariadb

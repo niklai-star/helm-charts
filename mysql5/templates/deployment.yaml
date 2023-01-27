@@ -1,48 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   labels:
     app: mysql
-    version: "5.7"
+    version: "5.7.41"
   name: mysql5
 spec:
-  selector: 
+  selector:
     matchLabels:
       app: mysql
-      version: "5.7"
-  template: 
-    metadata: 
+      version: "5.7.41"
+  template:
+    metadata:
       labels:
         app: mysql
-        version: "5.7"
+        version: "5.7.41"
     spec:
       containers:
-      - image: mysql:5.7
-        name: mysql5
-        securityContext: 
-          privileged: true
-          capabilities:
-            add: ["SYS_ADMIN"]
-          runAsUser: 0
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "123456"
-        - name: MYSQL_ROOT_HOST
-          value: "%"
-        resources:
-          limits:
-            memory: {{ .Values.resources.limits.memory }}
-        ports:
-        - containerPort: 3306
-        volumeMounts:
-        - name: data
-          mountPath: /var/lib/mysql
-        - name: config
-          mountPath: /etc/mysql/conf.d
+        - image: mysql:5.7.41
+          name: mysql5
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "{{ .Values.env.MYSQL_ROOT_PASSWORD }}"
+            - name: MYSQL_ROOT_HOST
+              value: "{{ .Values.env.MYSQL_ROOT_HOST }}"
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          ports:
+            - name: p
+              containerPort: 3306
+            - name: x
+              containerPort: 33060
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: config
+              mountPath: /etc/mysql/conf.d
       volumes:
-      - name: data
-        hostPath: 
-          path: {{ .Values.hostPath.data.path }}
-      - name: config
-        configMap:
-          name: mysql
+        - name: data
+          hostPath:
+            path: {{ .Values.hostPath.data.path }}
+        - name: config
+          configMap:
+            name: mysql

@@ -3,15 +3,21 @@ kind: Service
 metadata:
   labels:
     app: mysql
-    version: "5.7"
+    version: "5.7.41"
   name: mysql5
 spec:
   selector:
     app: mysql
-    version: "5.7"
+    version: "5.7.41"
   type: NodePort
   ports:
-  - port: 3306
-    protocol: TCP
-    targetPort: 3306
-    nodePort: {{ .Values.nodePort }}
+    - name: p
+      protocol: TCP
+      port: 3306
+      targetPort: p
+      nodePort: {{ .Values.nodePort.p }}
+    - name: x
+      protocol: TCP
+      port: 33060
+      targetPort: x
+      nodePort: {{ .Values.nodePort.x }}

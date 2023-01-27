@@ -1,3 +1,7 @@
+env:
+  MYSQL_ROOT_PASSWORD: 123456
+  MYSQL_ROOT_HOST: '%'
+
 resources:
   limits:
     memory: 256Mi
@@ -6,4 +10,6 @@ hostPath:
   data:
     path: /usr/volume/mysql/5
 
-nodePort: 3306
+nodePort:
+  p: 3306
+  x: 33060

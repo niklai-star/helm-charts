@@ -21,9 +21,9 @@ spec:
           image: postgres:15.1
           env:
             - name: POSTGRES_USER
-              value: "{{ .Values.env.user }}"
+              value: "{{ .Values.env.POSTGRES_USER }}"
             - name: POSTGRES_PASSWORD
-              value: "{{ .Values.env.password }}"
+              value: "{{ .Values.env.POSTGRES_PASSWORD }}"
           ports:
             - containerPort: 5432
           volumeMounts:

@@ -1,6 +1,6 @@
 env:
-  user: "sa"
-  password: "123456"
+  POSTGRES_USER: "root"
+  POSTGRES_PASSWORD: "123456"
 
 resource:
   limits:
