@@ -19,11 +19,11 @@ spec:
       containers:
         - name: mongodb
           image: mongo:6.0.3
-{{/*          env:*/}}
-{{/*            - name: MONGO_INITDB_ROOT_USERNAME*/}}
-{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_USERNAME }}"*/}}
-{{/*            - name: MONGO_INITDB_ROOT_PASSWORD*/}}
-{{/*              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_PASSWORD }}"*/}}
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_USERNAME }}"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "{{ .Values.db.env.MONGO_INITDB_ROOT_PASSWORD }}"
           resources:
             limits:
               memory: {{ .Values.db.resources.limits.memory }}
