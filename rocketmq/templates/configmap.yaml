@@ -11,4 +11,4 @@ data:
     fileReservedTime = 48
     brokerRole = ASYNC_MASTER
     flushDiskType = ASYNC_FLUSH
-    brokerIP1 = rocketmq
+    brokerIP1 = {{ .Values.rocketmq.ip }}
