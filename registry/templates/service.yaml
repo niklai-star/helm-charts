@@ -4,14 +4,18 @@ metadata:
   name: registry
   labels:
     app: registry
-    version: 2.8.1
 spec:
   selector:
     app: registry
-    version: 2.8.1
   type: NodePort
   ports:
-    - port: 5000
+    - name: registry
       protocol: TCP
+      port: 5000
       targetPort: 5000
-      nodePort: {{ .Values.nodePort }}
+      nodePort: {{ .Values.registry.nodePort }}
+    - name: web-http
+      protocol: TCP
+      port: 80
+      targetPort: http
+      nodePort: {{ .Values.frontend.http.nodePort }}

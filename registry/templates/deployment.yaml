@@ -4,17 +4,14 @@ metadata:
   name: registry
   labels:
     app: registry
-    version: 2.8.1
 spec:
   selector:
     matchLabels:
       app: registry
-      version: 2.8.1
   template:
     metadata:
       labels:
         app: registry
-        version: 2.8.1
     spec:
       containers:
         - name: registy
@@ -24,7 +21,25 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/registry
               name: data
+          resources:
+            limits:
+              memory: {{ .Values.registry.resources.limits.memory }}
+        - name: registry-frontend
+          image: konradkleine/docker-registry-frontend:v2
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+          env:
+            - name: ENV_DOCKER_REGISTRY_HOST
+              value: "localhost"
+            - name: ENV_DOCKER_REGISTRY_PORT
+              value: "5000"
+          resources:
+            limits:
+              memory: {{ .Values.frontend.resources.limits.memory }}
       volumes:
         - name: data
           hostPath:
-            path: {{ .Values.hostPath.data.path }}
+            path: {{ .Values.registry.hostPath.data.path }}

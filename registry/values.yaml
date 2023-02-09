@@ -1,5 +1,15 @@
-hostPath:
-  data:
-    path: /usr/volume/registry
+registry:
+  hostPath:
+    data:
+      path: /usr/volume/registry
+  resources:
+    limits:
+      memory: 64Mi
+  nodePort: 5000
 
-nodePort: 5000
+frontend:
+  resources:
+    limits:
+      memory: 64Mi
+  http:
+    nodePort: 8000
