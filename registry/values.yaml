@@ -1,0 +1,5 @@
+hostPath:
+  data:
+    path: /usr/volume/registry
+
+nodePort: 5000

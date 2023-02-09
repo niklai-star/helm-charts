@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  labels:
+    app: registry
+    version: 2.8.1
+spec:
+  selector:
+    matchLabels:
+      app: registry
+      version: 2.8.1
+  template:
+    metadata:
+      labels:
+        app: registry
+        version: 2.8.1
+    spec:
+      containers:
+        - name: registy
+          image: registry:2.8.1
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - mountPath: /var/lib/registry
+              name: data
+      volumes:
+        - name: data
+          hostPath:
+            path: {{ .Values.hostPath.data.path }}
