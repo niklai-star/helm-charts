@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul
+  labels:
+    app: consul
+    version: 1.14.4
+spec:
+  selector:
+    matchLabels:
+      app: consul
+      version: 1.14.4
+  template:
+    metadata:
+      labels:
+        app: consul
+        version: 1.14.4
+    spec:
+      containers:
+        - name: consul
+          image: consul:1.14.4
+          ports:
+            - containerPort: 8500
+{{/*          volumeMounts:*/}}
+{{/*            - mountPath: /consul/data*/}}
+{{/*              name: data*/}}
+{{/*            - mountPath: /consul/config*/}}
+{{/*              name: config*/}}
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          command: [ "/bin/sh" ]
+          args: [ "-c", "consul agent -dev -ui -client=0.0.0.0" ]
+{{/*      volumes:*/}}
+{{/*        - name: data*/}}
+{{/*          hostPath:*/}}
+{{/*            path: {{ .Values.hostPath.data }}*/}}
+{{/*        - name: config*/}}
+{{/*          hostPath:*/}}
+{{/*            path: {{ .Values.hostPath.config }}*/}}

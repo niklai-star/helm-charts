@@ -1,0 +1,11 @@
+resources:
+  limits:
+    memory: 128Mi
+
+hostPath:
+  data:
+    path: /usr/volume/consul/data
+  config:
+    path: /usr/volume/consul/config
+
+nodePort: 8500
