@@ -1,0 +1,8 @@
+hostPath:
+  path: /usr/volume/zookeeper
+
+resources:
+  limits:
+    memory: 64Mi
+
+nodePort: 2181

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: zookeeper:3.8.1
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 3888
+              name: leader
+            - containerPort: 2888
+              name: comm
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /datalogs
+              name: datalogs
+            - mountPath: /logs
+              name: logs
+      volumes:
+        - name: data
+          hostPath:
+            path: {{ .Values.hostPath.path }}/data
+            type: DirectoryOrCreate
+        - name: datalogs
+          hostPath:
+            path: {{ .Values.hostPath.path }}/datalogs
+            type: DirectoryOrCreate
+        - name: logs
+          hostPath:
+            path: {{ .Values.hostPath.path }}/logs
+            type: DirectoryOrCreate
