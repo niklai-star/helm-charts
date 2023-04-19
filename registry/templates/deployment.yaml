@@ -43,3 +43,4 @@ spec:
         - name: data
           hostPath:
             path: {{ .Values.registry.hostPath.data.path }}
+            type: DirectoryOrCreate

@@ -46,6 +46,8 @@ spec:
         - name: config
           hostPath:
             path: {{ .Values.hostPath.config.path }}
+            type: DirectoryOrCreate
         - name: db
           hostPath:
             path: {{ .Values.hostPath.db.path }}
+            type: DirectoryOrCreate

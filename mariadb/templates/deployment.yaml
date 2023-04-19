@@ -38,6 +38,7 @@ spec:
         - name: data
           hostPath:
             path: {{ .Values.hostPath.data.path }}
+            type: DirectoryOrCreate
         - name: config
           configMap:
             name: mariadb

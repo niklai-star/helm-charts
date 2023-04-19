@@ -1,5 +1,5 @@
 rocketmq:
-  ip: 192.169.115.131
+  ip: 192.169.115.132
   version: 4.8.0
   namesrv:
     env: 
