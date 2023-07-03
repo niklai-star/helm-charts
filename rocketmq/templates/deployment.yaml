@@ -20,67 +20,74 @@ spec:
         runAsGroup: 0
         fsGroup: 0
       containers:
-      - name: rocketmq-namesrv
-        image: foxiswho/rocketmq:{{ .Values.rocketmq.version }}
-        env:
-        - name: TZ
-          value: {{ .Values.rocketmq.namesrv.env.TZ }}
-        - name: JAVA_OPT_EXT
-          value: {{ .Values.rocketmq.namesrv.env.JAVA_OPT_EXT }}
-        command: ["sh", "-c", "mqnamesrv"]
-        ports:
-        - containerPort: 9876
-        volumeMounts:
-        - name: logs
-          mountPath: /home/rocketmq/logs
-        - name: store
-          mountPath: /home/rocketmq/store
-        resources:
-          limits:
-            memory: {{ .Values.rocketmq.namesrv.resources.limits.memory }}
-      - name: rocketmq-broker
-        image: foxiswho/rocketmq:{{ .Values.rocketmq.version }}
-        env:
-        - name: TZ
-          value: {{ .Values.rocketmq.broker.env.TZ }}
-        - name: NAMESRV_ADDR
-          value: "{{ .Values.rocketmq.ip }}:9876"
-        - name: JAVA_OPT_EXT
-          value: {{ .Values.rocketmq.broker.env.JAVA_OPT_EXT }}
-        command: ["sh", "-c", "mqbroker -c /etc/rocketmq/broker.conf"]
-        ports:
-        - containerPort: 10909
-        - containerPort: 10911
-        - containerPort: 10912
-        volumeMounts:
-        - name: logs
-          mountPath: /home/rocketmq/logs
-        - name: store
-          mountPath: /home/rocketmq/store
-        - name: conf
-          mountPath: /etc/rocketmq
-        resources:
-          limits:
-            memory: {{ .Values.rocketmq.broker.resources.limits.memory }}
-      - name: rocketmq-dashboard
-        image: apacherocketmq/rocketmq-dashboard:{{ .Values.dashboard.version }}
-        env:
-        - name: JAVA_OPTS
-          value: "{{ .Values.dashboard.env.JAVA_OPTS }} -Drocketmq.namesrv.addr={{ .Values.dashboard.env.namesrvAddr }}"
-        ports:
-        - containerPort: 8080
-        resources:
-          limits:
-            memory: {{ .Values.dashboard.resources.limits.memory }}
+        - name: rocketmq-namesrv
+          image: foxiswho/rocketmq:4.8.0
+          env:
+            - name: TZ
+              value: {{ .Values.rocketmq.namesrv.env.TZ }}
+            - name: JAVA_OPT_EXT
+              value: {{ .Values.rocketmq.namesrv.env.JAVA_OPT_EXT }}
+          command: [ "sh", "-c", "mqnamesrv" ]
+          ports:
+            - containerPort: 9876
+          volumeMounts:
+            - name: logs
+              mountPath: /home/rocketmq/logs
+            - name: store
+              mountPath: /home/rocketmq/store
+          resources:
+            limits:
+              memory: {{ .Values.rocketmq.namesrv.resources.limits.memory }}
+        - name: rocketmq-broker
+          image: foxiswho/rocketmq:4.8.0
+          env:
+            - name: TZ
+              value: {{ .Values.rocketmq.broker.env.TZ }}
+            - name: NAMESRV_ADDR
+              value: "{{ .Values.rocketmq.ip }}:9876"
+            - name: JAVA_OPT_EXT
+              value: {{ .Values.rocketmq.broker.env.JAVA_OPT_EXT }}
+          command: [ "sh", "-c", "mqbroker -c /etc/rocketmq/broker.conf" ]
+          ports:
+            - containerPort: 10909
+            - containerPort: 10911
+            - containerPort: 10912
+          volumeMounts:
+            - name: logs
+              mountPath: /home/rocketmq/logs
+            - name: store
+              mountPath: /home/rocketmq/store
+            - name: conf
+              mountPath: /etc/rocketmq/broker.conf
+              subPath: broker.conf
+            - name: plain-acl
+              mountPath: /home/rocketmq/rocketmq-4.8.0/conf/plain_acl.yml
+              subPath: plain_acl.yml
+          resources:
+            limits:
+              memory: {{ .Values.rocketmq.broker.resources.limits.memory }}
+        - name: rocketmq-dashboard
+          image: apacherocketmq/rocketmq-dashboard:1.0.0
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.dashboard.env.JAVA_OPTS }} -Drocketmq.namesrv.addr={{ .Values.dashboard.env.namesrvAddr }} -Drocketmq.config.accessKey=rocketmqadmin -Drocketmq.config.secretKey=12345678"
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: {{ .Values.dashboard.resources.limits.memory }}
       volumes:
-      - name: logs
-        hostPath:
-          path: {{ .Values.hostPath.logs.path }}
-          type: DirectoryOrCreate
-      - name: store
-        hostPath:
-          path: {{ .Values.hostPath.store.path }}
-          type: DirectoryOrCreate
-      - name: conf
-        configMap:
-          name: rocketmq-broker-conf
+        - name: logs
+          hostPath:
+            path: {{ .Values.hostPath.logs.path }}
+            type: DirectoryOrCreate
+        - name: store
+          hostPath:
+            path: {{ .Values.hostPath.store.path }}
+            type: DirectoryOrCreate
+        - name: conf
+          configMap:
+            name: rocketmq-broker-conf
+        - name: plain-acl
+          configMap:
+            name: rocketmq-broker-plain-acl

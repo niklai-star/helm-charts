@@ -17,21 +17,28 @@ spec:
         version: "7-alpine"
     spec:
       containers:
-      - name: redis7
-        image: redis:7-alpine
-        securityContext: 
-          privileged: true
-          capabilities:
-            add: ["SYS_ADMIN"]
-          runAsUser: 0
-        ports:
-        - containerPort: 6379
-        volumeMounts:
-        - name: data
-          mountPath: /data
-        resources:
-          limits:
-            memory: {{ .Values.resources.limits.memory }}
+        - name: redis7
+          image: redis:7-alpine
+          securityContext:
+            privileged: true
+            capabilities:
+              add: [ "SYS_ADMIN" ]
+            runAsUser: 0
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /etc/redis/redis.conf
+              subPath: redis.conf
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+          command: [ "sh", "-c", "redis-server /etc/redis/redis.conf" ]
       volumes:
-      - name: data
-        emptyDir: {}
+        - name: data
+          emptyDir: { }
+        - name: config
+          configMap:
+            name: redis-conf

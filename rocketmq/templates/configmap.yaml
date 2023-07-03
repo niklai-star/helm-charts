@@ -11,4 +11,39 @@ data:
     fileReservedTime = 48
     brokerRole = ASYNC_MASTER
     flushDiskType = ASYNC_FLUSH
+    aclEnable = true
     brokerIP1 = {{ .Values.rocketmq.ip }}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rocketmq-broker-plain-acl
+data:
+  plain_acl.yml: |-
+    globalWhiteRemoteAddresses:
+
+    accounts:
+      - accessKey: RocketMQ
+        secretKey: 12345678
+        whiteRemoteAddress:
+        admin: false
+        defaultTopicPerm: DENY
+        defaultGroupPerm: SUB
+        topicPerms:
+          - ZKT_UC_USER_INFO=PUB|SUB
+          - ZKT_UC_DEPT_INFO=PUB|SUB
+          - ZKT_UC_MAIN_INFO=PUB|SUB
+          - opw_MAIN_INFO=PUB|SUB
+          - opw_DEPT_INFO=PUB|SUB
+          - opw_USER_INFO=PUB|SUB
+        groupPerms:
+          # the group should convert to retry topic
+          - zktuserInfo=PUB|SUB
+      - accessKey: rocketmqadmin
+        secretKey: 12345678
+        whiteRemoteAddress:
+        admin: true
+        defaultTopicPerm: PUB|SUB
+        defaultGroupPerm: PUB|SUB

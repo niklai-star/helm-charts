@@ -7,6 +7,6 @@ resources:
     memory: 2048Mi
 
 hostPath:
-  path: /usr/valumes/mssql
+  path: /usr/volumes/mssql
 
 nodePort: 1433
