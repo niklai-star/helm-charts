@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark
+  labels:
+    app: spark
+spec:
+  selector:
+    app: spark
+  type: NodePort
+  ports:
+    - name: "tcp-8080"
+      protocol: TCP
+      port: 8080
+      targetPort: web
+      nodePort: {{ .Values.portal.nodePort }}
+    - name: "tcp-7077"
+      protocol: TCP
+      port: 7077
+      targetPort: spark-master

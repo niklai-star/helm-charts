@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: bladex/sentinel-dashboard:1.8.0
+          ports:
+            - containerPort: 8858
+              name: web
+            - containerPort: 8719
+              name: heartbeat
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}

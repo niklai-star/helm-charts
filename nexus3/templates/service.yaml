@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus3
+  labels:
+    app: nexus3
+    version: 3
+spec:
+  selector:
+    app: nexus3
+    version: 3
+  type: NodePort
+  ports:
+  - name: webs
+    port: 8848
+    targetPort: 8848
+    nodePort: {{ .Values.nodePort.web }}
+  - name: "tcp-9848"
+    port: 9848
+    targetPort: 9848
+    nodePort: {{ .Values.nodePort.tcp9848 }}

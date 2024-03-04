@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: emqx
+  labels:
+    app: emqx
+spec:
+  selector:
+    app: emqx
+  type: NodePort
+  ports:
+  - name: webs
+    port: 18083
+    targetPort: 18083
+    nodePort: 18083
+  - name: "mqtt"
+    port: 1883
+    targetPort: 1883
+    nodePort: 1883
+  - name: "8083"
+    port: 8083
+    targetPort: 8083
+    nodePort: 8083
+  - name: "8084"
+    port: 8084
+    targetPort: 8084
+    nodePort: 8084
+  - name: "8883"
+    port: 8883
+    targetPort: 8883
+    nodePort: 8883

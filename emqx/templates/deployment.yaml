@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emqx
+  labels:
+    app: emqx
+spec:
+  selector:
+    matchLabels:
+      app: emqx
+  template:
+    metadata:
+      labels:
+        app: emqx
+    spec:
+      containers:
+      - name: emqx
+        image: emqx/emqx:5.1
+        ports:
+        - containerPort: 1883
+        - containerPort: 8083
+        - containerPort: 8084
+        - containerPort: 8883
+        - containerPort: 18083
